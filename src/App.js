@@ -2,8 +2,17 @@ import React from 'react';
 import {Field, Form, Formik} from 'formik';
 import * as Yup from 'yup';
 
+const FormSchema = Yup.object().shape ({
+  name : Yup.string()
+  .min(2, 'Name cannot be lower than two characters')
+  .max(30, 'Name is not allowed to be longer than 30 characters'),
+  email : Yup.string()
+  .email('This is not a valid mail format')
+  .required('Email is a required field')
+})
 
-const FormOne = ()=> {
+
+const FormOne = props=> {
   if(props.currentForm == 1) {
     return (
       <>
@@ -16,7 +25,7 @@ const FormOne = ()=> {
   }
 }
 
-const FormTwo = ()=> {
+const FormTwo = props=> {
   if(props.currentForm==2) {
     return (
       <>
@@ -28,7 +37,6 @@ const FormTwo = ()=> {
     return null
   }
 }
- 
 
 const FormThree = props=> {
   if (props.currentForm == 3) {
