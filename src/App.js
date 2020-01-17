@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Field, Form, Formik} from 'formik';
 import * as Yup from 'yup';
+import './output.css';
 
 const FormSchema = Yup.object().shape ({
   name : Yup.string()
@@ -62,11 +63,33 @@ const FormThree = props=> {
 
 
 function App() {
+  const [currentForm, setCurrentForm] = useState(1);
+
+  const handleNext = ()=> {
+    if (currentForm && currentForm<3){
+     setCurrentForm(currentForm+1)
+  } 
+}
+
+  const handleBack = () => {
+    if (currentForm && currentForm>1) {
+      setCurrentForm(currentForm-1) 
+    }
+  }
+
+  const nextButton = ()=> (
+    <div>Next</div>
+  )
+
+  const backButton = () => (
+    <div>Back</div>
+  )
+
   return (
     <div>
      <Formik
      initialValues = {{
-       name: '', email: '', address: '', card : '' , amount: '', currentForm: 1
+       name: '', email: '', address: '', card : '' , amount: ''
      }}
 
      validationSchema = {FormSchema}
@@ -79,15 +102,15 @@ function App() {
               <FormTwo   currentForm={currentForm} touched={touched}  errors={errors} />
               <FormThree currentForm={currentForm}  touched={touched}  errors={errors} />
             </Form>   
-            <backButton/>
-            <nextButton/>
+            <backButton onClick={handleBack}/>
+            <nextButton onClick={handleNext}/>
             </>
           )
         }
 
      </Formik>
     </div>
-  );
+  )
 }
 
 export default App;
