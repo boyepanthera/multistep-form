@@ -2,6 +2,11 @@ import React, {useState} from 'react';
 import {Field, Form, Formik} from 'formik';
 import * as Yup from 'yup';
 import './output.css';
+import styled from 'styled-components';
+
+const Err = styled.div ({
+  color:'red'
+})
 
 const FormSchema = Yup.object().shape ({
   name : Yup.string()
@@ -22,16 +27,19 @@ const FormSchema = Yup.object().shape ({
 
 
 const FormOne = props=> {
+  const {touched, errors} =props
   if(props.currentForm === 1) {
     return (
       <>
       <div>
         <label htmlFor='name block'>Name</label>
         <Field  name='name' placeholder='Your username'/>
+        {errors.name && touched.name ? <Err>{errors.name}</Err> : null}
       </div>
       <div>
         <label htmlFor='email'>Email</label>
         <Field  name='email' placeholder='johndoe@gmail.com'/>
+        {errors.email && touched.email ? <Err>{errors.email}</Err> : null}
       </div>
       </>
     )
@@ -41,16 +49,19 @@ const FormOne = props=> {
 }
 
 const FormTwo = props=> {
+  const {touched, errors} = props;
   if(props.currentForm===2) {
     return (
       <>
       <div>
-        <label htmlFor='address'>Amount</label>
+        <label htmlFor='address'>Address</label>
         <Field  name='address' placeholder='Your address goes here'/>
+        {errors.address && touched.address ? <Err>{errors.address}</Err> : null}
       </div>
       <div>     
-        <label htmlFor='card'>Amount</label>   
+        <label htmlFor='card'>Card</label>   
         <Field  name='card' placeholder='Card details'/>
+        {errors.card && touched.card ? <Err>{errors.card}</Err> : null}
       </div>
       </>
     )
@@ -61,11 +72,13 @@ const FormTwo = props=> {
 
 const FormThree = props=> {
   if (props.currentForm === 3) {
+    const {touched, errors}= props
     return (
       <>
       <label htmlFor='amount'>Amount</label>
-      <Field name='amount' placeholder='Amount you want to pay'/>
-      <button type='submit p-2'>Submit</button>
+      <Field  name='amount' placeholder='Amount you want to pay'/>
+      {errors.amount && touched.amount ? <Err>{errors.amount}</Err> : null}
+      <button type='submit' className='block p-2 rounded m-2 rounded bg-red-400'>Submit</button>
       </>
     )
   } else {
@@ -74,27 +87,28 @@ const FormThree = props=> {
 }
 
 
+
 function App() {
   const [currentForm, setCurrentForm] = useState(1);
 
   const handleNext = ()=> {
     if (currentForm && currentForm<3){
-     setCurrentForm(currentForm+1)
+     setCurrentForm(currentForm=>currentForm+1)
   } 
 }
 
   const handleBack = () => {
     if (currentForm && currentForm>1) {
-      setCurrentForm(currentForm-1) 
+      setCurrentForm(currentForm => currentForm-1) 
     }
   }
 
-  const nextButton = ()=> (
-    <div onClick={handleNext} className='bg-red-300 p-2  text-white'>Next</div>
+  const NextButton = ()=> (
+    <div onClick={handleNext} className='bg-red-300 p-2 m-4  rounded w-15 h-10 text-white'>Next</div>
   )
-
-  const backButton = () => (
-    <div onClick={handleBack} className='bg-red-300 p-2 text-white'>Back</div>
+  
+  const BackButton = () => (
+    <div onClick={handleBack} className='bg-red-300 p-2 m-4 rounded w-15 h-10 text-white'>Back</div>
   )
 
   return (
@@ -103,18 +117,18 @@ function App() {
      initialValues = {{
        name: '', email: '', address: '', card : '' , amount: ''
      }}
-
+     onSubmit ={ values => console.log(values)}
      validationSchema = {FormSchema}
      >
         {
           (touched, errors) => (
             <>
-            <Form className='w-1/3 mx-auto flex p-10'>
+            <Form className='w-1/2 mx-auto flex p-10 bg-gray-300'>
               <FormOne currentForm={currentForm} touched={touched} errors={errors} />
               <FormTwo   currentForm={currentForm} touched={touched}  errors={errors} />
               <FormThree currentForm={currentForm}  touched={touched}  errors={errors} />
-              <backButton />
-              <nextButton />
+              <BackButton/>
+              <NextButton/>
             </Form>   
             </>
           )
