@@ -22,11 +22,17 @@ const FormSchema = Yup.object().shape ({
 
 
 const FormOne = props=> {
-  if(props.currentForm == 1) {
+  if(props.currentForm === 1) {
     return (
       <>
+      <div>
+        <label htmlFor='name block'>Name</label>
         <Field  name='name' placeholder='Your username'/>
+      </div>
+      <div>
+        <label htmlFor='email'>Email</label>
         <Field  name='email' placeholder='johndoe@gmail.com'/>
+      </div>
       </>
     )
   } else {
@@ -35,11 +41,17 @@ const FormOne = props=> {
 }
 
 const FormTwo = props=> {
-  if(props.currentForm==2) {
+  if(props.currentForm===2) {
     return (
       <>
+      <div>
+        <label htmlFor='address'>Amount</label>
         <Field  name='address' placeholder='Your address goes here'/>
+      </div>
+      <div>     
+        <label htmlFor='card'>Amount</label>   
         <Field  name='card' placeholder='Card details'/>
+      </div>
       </>
     )
   } else {
@@ -48,7 +60,7 @@ const FormTwo = props=> {
 }
 
 const FormThree = props=> {
-  if (props.currentForm == 3) {
+  if (props.currentForm === 3) {
     return (
       <>
       <label htmlFor='amount'>Amount</label>
@@ -78,11 +90,11 @@ function App() {
   }
 
   const nextButton = ()=> (
-    <div>Next</div>
+    <div onClick={handleNext} className='bg-red-300 p-2  text-white'>Next</div>
   )
 
   const backButton = () => (
-    <div>Back</div>
+    <div onClick={handleBack} className='bg-red-300 p-2 text-white'>Back</div>
   )
 
   return (
@@ -97,13 +109,13 @@ function App() {
         {
           (touched, errors) => (
             <>
-            <Form>
+            <Form className='w-1/3 mx-auto flex p-10'>
               <FormOne currentForm={currentForm} touched={touched} errors={errors} />
               <FormTwo   currentForm={currentForm} touched={touched}  errors={errors} />
               <FormThree currentForm={currentForm}  touched={touched}  errors={errors} />
+              <backButton />
+              <nextButton />
             </Form>   
-            <backButton onClick={handleBack}/>
-            <nextButton onClick={handleNext}/>
             </>
           )
         }
