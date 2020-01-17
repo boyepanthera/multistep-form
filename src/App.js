@@ -5,10 +5,18 @@ import * as Yup from 'yup';
 const FormSchema = Yup.object().shape ({
   name : Yup.string()
   .min(2, 'Name cannot be lower than two characters')
-  .max(30, 'Name is not allowed to be longer than 30 characters'),
+  .max(30, 'Name is not allowed to be longer than 30 characters')
+  .required('Name is a required field'),
   email : Yup.string()
   .email('This is not a valid mail format')
-  .required('Email is a required field')
+  .required('Email is a required field'),
+  address: Yup.string()
+  .min(10, 'Address has to be at least 10 characters'),
+  card : Yup.number()
+  .min(16, 'Card has to be 16 characters')
+  .max(16, 'Card number cannot be longer than 16 characters'),
+  amount: Yup.number()
+  .required('Amount is a required field')
 })
 
 
@@ -42,8 +50,9 @@ const FormThree = props=> {
   if (props.currentForm == 3) {
     return (
       <>
+      <label htmlFor='amount'>Amount</label>
       <Field name='amount' placeholder='Amount you want to pay'/>
-      <button type='submit'>Submit</button>
+      <button type='submit p-2'>Submit</button>
       </>
     )
   } else {
