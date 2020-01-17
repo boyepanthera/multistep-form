@@ -1,8 +1,9 @@
 import React from 'react';
 import {Field, Form, Formik} from 'formik';
+import * as Yup from 'yup';
 
 
-const formOne = ()=> {
+const FormOne = ()=> {
   if(props.currentForm == 1) {
     return (
       <>
@@ -15,7 +16,7 @@ const formOne = ()=> {
   }
 }
 
-const formTwo = ()=> {
+const FormTwo = ()=> {
   if(props.currentForm==2) {
     return (
       <>
@@ -29,7 +30,7 @@ const formTwo = ()=> {
 }
  
 
-const formThree = props=> {
+const FormThree = props=> {
   if (props.currentForm == 3) {
     return (
       <>
@@ -50,6 +51,8 @@ function App() {
      initialValues = {{
        name: '', email: '', address: '', card : '' , amount: '', currentForm: 1
      }}
+
+     validationSchema = {FormSchema}
      >
         {
           (touched, errors) => (
