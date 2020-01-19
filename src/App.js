@@ -1,44 +1,18 @@
 import React, {useState} from 'react';
 import {Field, Form, Formik} from 'formik';
-import * as Yup from 'yup';
 import './output.css';
-import styled from 'styled-components';
-
-const Err = styled.div`
-    color:red
-    text-align : left
-    `
-const FormSchema = Yup.object().shape ({
-  name : Yup.string()
-  .min(2, 'Name cannot be lower than two characters')
-  .max(30, 'Name is not allowed to be longer than 30 characters')
-  .required('Name is a required field'),
-  email : Yup.string()
-  .email('This is not a valid mail format')
-  .required('Email is a required field'),
-  address: Yup.string()
-  .min(10, 'Address has to be at least 10 characters'),
-  card : Yup.string()
-  .min(16, 'Card has to be 16 characters')
-  .max(16, 'Card number cannot be longer than 16 characters'),
-  amount: Yup.string()
-  .required('Amount is a required field')
-})
 
 const FormOne = props=> {
-  const {touched, errors} =props
   if(props.currentForm === 1) {
     return (
       <>
-      <div>
-        <label htmlFor='name block'>Name</label>
-        <Field  name='name' placeholder='Your username'/>
-        <div>{ touched.name && errors.name ? (<Err>{errors.name}</Err>) : null}</div>
+      <div className='mb-4'>
+        <label htmlFor='name block' className='block text-gray-700 text-sm font-bold mb-2'>Name</label>
+        <Field  name='name' className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' placeholder='Your username'/>
       </div>
       <div>
-        <label htmlFor='email'>Email</label>
-        <Field  name='email' placeholder='johndoe@gmail.com'/>
-        <div>{ touched.email  && errors.email ? (<Err>{errors.email}</Err>)  : null}</div>
+        <label htmlFor='email' className='block text-gray-700 text-sm font-bold mb-2'>Email</label>
+        <Field  name='email' className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'  placeholder='johndoe@gmail.com'/>
       </div>
       </>
     )
@@ -48,19 +22,16 @@ const FormOne = props=> {
 }
 
 const FormTwo = props=> {
-  const {touched, errors} = props;
   if(props.currentForm===2) {
     return (
       <>
       <div>
         <label htmlFor='address'>Address</label>
-        <Field  name='address' placeholder='Your address goes here'/>
-        {touched.address && errors.address  ? (<Err>{errors.address}</Err> ) : null}
+        <Field  name='address'  placeholder='Your address goes here'/>
       </div>
       <div>     
         <label htmlFor='card'>Card</label>   
         <Field  name='card' placeholder='Card details'/>
-        <div>{ touched.card && errors.card ? (<Err>{errors.card}</Err>) : null}</div>
       </div>
       </>
     )
@@ -71,12 +42,10 @@ const FormTwo = props=> {
 
 const FormThree = props=> {
   if (props.currentForm === 3) {
-    const {touched, errors}= props
     return (
       <>
       <label htmlFor='amount'>Amount</label>
-      <Field  name='amount' placeholder='Amount you want to pay'/>
-      {touched.amount && errors.amount ? (<Err>{errors.amount}</Err>) : null}
+      <Field  name='amount'  placeholder='Amount you want to pay'/>
       <button type='submit' className='block p-2 rounded m-2 rounded bg-red-400'>Submit</button>
       </>
     )
@@ -117,19 +86,18 @@ function App() {
        name: '', email: '', address: '', card : '' , amount: ''
      }}
      onSubmit ={ values => console.log(values)}
-     validationSchema = {FormSchema}
      >
         {
-          (touched, errors) => (
-            <>
-            <Form className='w-1/2 mx-auto flex p-10 bg-gray-300'>
-              <FormOne currentForm={currentForm} touched={touched} errors={errors} />
-              <FormTwo   currentForm={currentForm} touched={touched}  errors={errors} />
-              <FormThree currentForm={currentForm}  touched={touched}  errors={errors} />
+          (touched, errors, values) => (
+            <div className='w-full max-w-sm'>
+            <Form className='bg-white shadown-md rounded px-8 pt-6 pb-8 mb-4'>
+              <FormOne currentForm={currentForm} />
+              <FormTwo   currentForm={currentForm}  />
+              <FormThree currentForm={currentForm}   />
               <BackButton/>
               <NextButton/>
             </Form>   
-            </>
+            </div>
           )
         }
 
