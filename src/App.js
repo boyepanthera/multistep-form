@@ -4,10 +4,10 @@ import * as Yup from 'yup';
 import './output.css';
 import styled from 'styled-components';
 
-const Err = styled.div ({
-  color:'red'
-})
-
+const Err = styled.div`
+    color:red
+    text-align : left
+    `
 const FormSchema = Yup.object().shape ({
   name : Yup.string()
   .min(2, 'Name cannot be lower than two characters')
@@ -18,13 +18,12 @@ const FormSchema = Yup.object().shape ({
   .required('Email is a required field'),
   address: Yup.string()
   .min(10, 'Address has to be at least 10 characters'),
-  card : Yup.number()
+  card : Yup.string()
   .min(16, 'Card has to be 16 characters')
   .max(16, 'Card number cannot be longer than 16 characters'),
-  amount: Yup.number()
+  amount: Yup.string()
   .required('Amount is a required field')
 })
-
 
 const FormOne = props=> {
   const {touched, errors} =props
@@ -34,12 +33,12 @@ const FormOne = props=> {
       <div>
         <label htmlFor='name block'>Name</label>
         <Field  name='name' placeholder='Your username'/>
-        {errors.name && touched.name ? <Err>{errors.name}</Err> : null}
+        <div>{ touched.name && errors.name ? (<Err>{errors.name}</Err>) : null}</div>
       </div>
       <div>
         <label htmlFor='email'>Email</label>
         <Field  name='email' placeholder='johndoe@gmail.com'/>
-        {errors.email && touched.email ? <Err>{errors.email}</Err> : null}
+        <div>{ touched.email  && errors.email ? (<Err>{errors.email}</Err>)  : null}</div>
       </div>
       </>
     )
@@ -56,12 +55,12 @@ const FormTwo = props=> {
       <div>
         <label htmlFor='address'>Address</label>
         <Field  name='address' placeholder='Your address goes here'/>
-        {errors.address && touched.address ? <Err>{errors.address}</Err> : null}
+        {touched.address && errors.address  ? (<Err>{errors.address}</Err> ) : null}
       </div>
       <div>     
         <label htmlFor='card'>Card</label>   
         <Field  name='card' placeholder='Card details'/>
-        {errors.card && touched.card ? <Err>{errors.card}</Err> : null}
+        <div>{ touched.card && errors.card ? (<Err>{errors.card}</Err>) : null}</div>
       </div>
       </>
     )
@@ -77,7 +76,7 @@ const FormThree = props=> {
       <>
       <label htmlFor='amount'>Amount</label>
       <Field  name='amount' placeholder='Amount you want to pay'/>
-      {errors.amount && touched.amount ? <Err>{errors.amount}</Err> : null}
+      {touched.amount && errors.amount ? (<Err>{errors.amount}</Err>) : null}
       <button type='submit' className='block p-2 rounded m-2 rounded bg-red-400'>Submit</button>
       </>
     )
